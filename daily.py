@@ -9,6 +9,7 @@ import pandas as pd
 
 
 def daily(usr, pw):
+    fail = False
     checkpoint = time.time()
     chrome_options = Options()
     chrome_options.add_argument('--headless')
@@ -55,6 +56,7 @@ def daily(usr, pw):
         claim_reward.click()
         print("每日登录领取成功")
     except:
+        fail = True
         with open("daily_fail.txt","a") as file:
             file.write(usr+"\n")
         print("每日登录领取失败")
@@ -107,13 +109,18 @@ def daily(usr, pw):
         claim_reward.click()
         print("答题领取成功")
     except:
-        with open("daily_fail.txt","a") as file:
-            file.write(usr+"\n")
-        print("答题领取失败")
+        if fail == False:
+            with open("daily_fail.txt","a") as file:
+                file.write(usr+"\n")
+            print("答题领取失败")
 
 
     time.sleep(3)
     browser.quit()
+
+    if fail == False:
+        with open("daily_success.txt","a") as file:
+            file.write(usr+"\n")
 
     print("用户: %s 已登出" % usr)
     checkpoint2=time.time()
