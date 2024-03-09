@@ -89,9 +89,11 @@ def daily(usr, pw):
                 browser.find_element_by_xpath(answer_xpath).click()
             except:
                 print("找不到答案")
+                options_elements = driver.find_elements_by_class_name("style_text__UG4zk")
+                options = [element.text for element in options_elements]
                 browser.find_element_by_xpath('//div[contains(@class, "style_answer__F5PHw")][2]').click()
                 with open("questionlist.txt", "a") as file:
-                    file.write(question + "\n")
+                    file.write("问题：%s\n 答案: %s \n A:%s B:%s C:%s" % (question,answer,options[0],options[1],options[2]))
 
             time.sleep(3)
             WebDriverWait(browser, 10).until(
